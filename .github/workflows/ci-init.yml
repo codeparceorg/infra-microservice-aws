@@ -44,7 +44,7 @@ jobs:
       - name: Inicializar backend remoto
         run: terraform init 
 
-      - name: Realizar el Plan
+      - name: Realizar el Plan 
         run: terraform plan -out .planfile
 
       - name: Post PR comment
