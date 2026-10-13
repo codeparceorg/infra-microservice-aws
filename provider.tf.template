@@ -8,7 +8,7 @@ terraform {
   backend "s3" {
     use_lockfile = true
     bucket       = "codeparce"
-    key          = "devsu/infra-microservice-aws/${TARGET_BRANCH}/terraform.tfstate"
+    key          = "devsu/infra-microservice-aws/${TARGET_BRANCH}_terraform.tfstate"
     region       = "${AWS_REGION}"
   }
 }
