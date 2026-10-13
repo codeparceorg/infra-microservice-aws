@@ -8,6 +8,7 @@ on:
 permissions:
   contents: read
   id-token: write
+  pull-requests: write
 
 jobs:
   terraform-init:
@@ -20,17 +21,19 @@ jobs:
         with:
           fetch-depth: 0 
 
-      - name: Set up Terraform
-        uses: hashicorp/setup-terraform@v3
-        
       - name: Debug OIDC claims
-        uses: github/actions-oidc-debugger@v1
+        uses: github/actions-oidc-debugger@main
+        with:
+          audience: sts.amazonaws.com
 
       - name: Configurar credenciales AWS mediante OIDC
         uses: aws-actions/configure-aws-credentials@v4
         with:
           role-to-assume: ${{ secrets.AWS_ROLE_STATE_ARN }}
           aws-region: ${{ secrets.AWS_REGION }}
+
+      - name: Verificar identidad AWS
+        run: aws sts get-caller-identity
 
       - name: Configurar Terraform
         uses: hashicorp/setup-terraform@v3
@@ -39,6 +42,9 @@ jobs:
         shell: bash
         run: |
           envsubst < provider.tf.template> provider.tf
+          
+      - name: Set up Terraform
+        uses: hashicorp/setup-terraform@v3
 
       - name: Inicializar backend remoto
         run: terraform init 
