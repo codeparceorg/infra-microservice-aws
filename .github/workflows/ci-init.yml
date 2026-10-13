@@ -22,6 +22,9 @@ jobs:
 
       - name: Set up Terraform
         uses: hashicorp/setup-terraform@v3
+        
+      - name: Debug OIDC claims
+        uses: github/actions-oidc-debugger@v1
 
       - name: Configurar credenciales AWS mediante OIDC
         uses: aws-actions/configure-aws-credentials@v4
