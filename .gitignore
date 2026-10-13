@@ -1,0 +1,33 @@
+# Terraform working directory and downloaded providers
+.terraform/
+**/.terraform/*
+
+backend.hcl
+example-service
+json.json
+
+# Terraform state and backups
+*.tfstate
+*.tfstate.*
+*.tfstate.backup
+
+# Terraform crash logs
+crash.log
+crash.*.log
+
+# Variable files may contain secrets or environment-specific values
+*.tfvars
+*.tfvars.json
+!*.tfvars.example
+!*.tfvars.example.json
+
+# Local override files
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+
+# CLI configuration and plan output
+.terraformrc
+terraform.rc
+*.plan

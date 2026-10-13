@@ -1,0 +1,3 @@
+bucket       = "codeparce"
+key          = "terraform/infra-microservice-aws/${TF_VAR_environment}/terraform.tfstate"
+region       = "${TF_VAR_aws_region}"
