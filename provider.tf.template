@@ -7,9 +7,12 @@ terraform {
   }
   backend "s3" {
     use_lockfile = true
+    bucket       = "codeparce"
+    key          = "devsu/infra-microservice-aws/${GITHUB_REF_NAME}/terraform.tfstate"
+    region       = "${AWS_REGION}"
   }
 }
 
 provider "aws" {
-  region = var.aws_region
+  region = "${AWS_REGION}"
 }

@@ -1,0 +1,54 @@
+name: Terraform Init
+
+on:
+  pull_request:
+    branches: [dev,test]
+
+  workflow_dispatch:
+    inputs:
+      pr_number:
+        description: "Número del Pull Request"
+        required: true
+        type: number
+
+permissions:
+  contents: read
+
+jobs:
+  terraform-init:
+    name: Initialize Terraform
+    env:
+      GITHUB_REF_NAME: ${{ github.ref_name }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Terraform
+        uses: hashicorp/setup-terraform@v3
+
+      - name: Configurar credenciales AWS mediante OIDC
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ secrets.AWS_ROLE_STATE_ARN }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Configurar Terraform
+        uses: hashicorp/setup-terraform@v3
+
+      - name: Templeate config
+        shell: bash
+        run: |
+          envsubst < provider.tf.template> provider.tf
+
+      - name: Inicializar backend remoto
+        run: terraform init 
+
+      - name: Realizar el Plan
+        run: terraform plan -out .planfile
+
+      - name: Post PR comment
+        uses: borchero/terraform-plan-comment@v2
+        with:
+          token: ${{ github.token }}
+          planfile: .planfile
