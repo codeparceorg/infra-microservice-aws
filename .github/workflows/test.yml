@@ -1,8 +1,10 @@
 name: Test Runner
 
 on:
-  pull_request:
-    branches: [dev,test]
+  # pull_request:
+  #   branches: [dev,test]
+
+  workflow_dispatch:
 
 jobs:
   test:
@@ -21,6 +23,11 @@ jobs:
       - name: Dump GitHub context
         env:
           GITHUB_CONTEXT: ${{ toJson(github) }}
+        run: echo "$GITHUB_CONTEXT"
+
+      - name: Dump GitHub context
+        env:
+          GITHUB_CONTEXT: ${{ toEnv(github) }}
         run: echo "$GITHUB_CONTEXT"
 
       - name: Test

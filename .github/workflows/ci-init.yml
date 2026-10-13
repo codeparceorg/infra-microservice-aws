@@ -15,7 +15,7 @@ jobs:
     name: Initialize Terraform
     env:
       TARGET_BRANCH: ${{ github.event.pull_request.base.ref}}
-      GITHUB_REPOSITORY: ${{ github.event.repository.name }}
+      GITHUB_REPOSITORY: ${{ github.event.pull_request.base.repo.name}}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
