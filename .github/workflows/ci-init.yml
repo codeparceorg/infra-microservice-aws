@@ -4,12 +4,6 @@ on:
   pull_request:
     branches: [dev,test]
 
-  workflow_dispatch:
-    inputs:
-      pr_number:
-        description: "Número del Pull Request"
-        required: true
-        type: number
 
 permissions:
   contents: read
