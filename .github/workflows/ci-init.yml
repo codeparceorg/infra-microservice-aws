@@ -21,10 +21,12 @@ jobs:
         with:
           fetch-depth: 0 
 
-      - name: Debug OIDC claims
-        uses: github/actions-oidc-debugger@main
-        with:
-          audience: sts.amazonaws.com
+      - name: Mostrar contexto del workflow
+        run: |
+          echo "Event: $GITHUB_EVENT_NAME"
+          echo "Repository: $GITHUB_REPOSITORY"
+          echo "Ref: $GITHUB_REF"
+          echo "Base branch: $TARGET_BRANCH"
 
       - name: Configurar credenciales AWS mediante OIDC
         uses: aws-actions/configure-aws-credentials@v4
@@ -42,7 +44,7 @@ jobs:
         shell: bash
         run: |
           envsubst < provider.tf.template> provider.tf
-          
+
       - name: Set up Terraform
         uses: hashicorp/setup-terraform@v3
 
