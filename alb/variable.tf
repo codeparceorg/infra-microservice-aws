@@ -16,5 +16,4 @@ variable "sg_alb_id" {
 variable "environment" {
   description = "Environment name"
   type        = string
-  default     = "dev"
 }
