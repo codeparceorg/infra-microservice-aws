@@ -4,9 +4,9 @@
 ```bash
 set -a && source .exmaple.env && set +a
 
-envsubst < backend.hcl.template > backend.hcl
+envsubst < provider.tf.template > provider.tf
 
-terraform init -backend-config=backend.hcl
+terraform init
 
 terraform plan 
 ```
