@@ -4,12 +4,14 @@
 
 backend.hcl
 example-service
-json.json
+*.json
 
 # Terraform state and backups
 *.tfstate
 *.tfstate.*
 *.tfstate.backup
+.terraform.lock.hcl
+provider.tf
 
 # Terraform crash logs
 crash.log
