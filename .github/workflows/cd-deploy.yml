@@ -43,5 +43,18 @@ jobs:
          envsubst < provider.tf.template> provider.tf
          terraform init 
 
-      - name: Deploy en aws
-        run: terraform apply -auto-approve 
+
+      - name: Deploy en AWS
+        shell: bash
+        run: |
+          set +e
+          terraform apply -input=false -auto-approve > terraform.log 2>&1
+          status=$?
+          set -e
+
+          if [ "$status" -eq 0 ]; then
+            echo "✅ Terraform apply ejecutado correctamente."
+          else
+            echo "❌ Error al desplegar con Terraform:"
+            exit "$status"
+          fi
