@@ -48,7 +48,7 @@ jobs:
         shell: bash
         run: |
           set +e
-          terraform apply -input=false -auto-approve > terraform.log 2>&1
+          terraform apply -auto-approve > terraform.log 2> error.log
           status=$?
           set -e
 
@@ -56,5 +56,6 @@ jobs:
             echo "✅ Terraform apply ejecutado correctamente."
           else
             echo "❌ Error al desplegar con Terraform:"
+            cat error.log
             exit "$status"
           fi

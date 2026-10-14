@@ -47,7 +47,7 @@ jobs:
          terraform init 
 
       - name: Realizar el Plan 
-        run: terraform plan -out .planfile > terraform.log 2>&1
+        run: terraform plan -out .planfile > terraform.log 2> error.log
 
       - name: Post PR comment
         uses: borchero/terraform-plan-comment@v2
