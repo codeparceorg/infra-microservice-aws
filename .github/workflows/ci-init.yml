@@ -39,9 +39,6 @@ jobs:
       - name: Realizar el Plan 
         run: terraform plan -out .planfile
 
-      - name: Subir plan al bucket
-        run: aws s3 cp .planfile s3://codeparce/devsu/plans/$GITHUB_REPOSITORY_NAME-$TARGET_BRANCH.planfile
-
       - name: Post PR comment
         uses: borchero/terraform-plan-comment@v2
         with:

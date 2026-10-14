@@ -40,8 +40,5 @@ jobs:
          envsubst < provider.tf.template> provider.tf
          terraform init 
 
-      - name: Descargar plan al bucket
-        run: aws s3 cp s3://codeparce/devsu/plans/$GITHUB_REPOSITORY_NAME-$TARGET_BRANCH.planfile .planfile
-
       - name: Deploy en aws
-        run: terraform apply -auto-approve .planfile
+        run: terraform apply -auto-approve 
