@@ -30,7 +30,7 @@ jobs:
       - name: Get parameters
         uses: codeparce/ci-workflows/.github/actions/aws/parameters@v1
         with:
-          path-parameter: $GITHUB_REPOSITORY_NAME/$TARGET_BRANCH
+          path-parameter: "$GITHUB_REPOSITORY_NAME/$TARGET_BRANCH"
 
       - name: Set env
         uses: codeparce/ci-workflows/.github/actions/github/env@v1
