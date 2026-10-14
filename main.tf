@@ -14,6 +14,6 @@ module "my_alb" {
 
 module "my_ecs" {
   source = "./ecs"
-   environment = var.environment
-   aws_region = var.aws_region
+  environment = var.environment
+  aws_region = var.aws_region
 }
