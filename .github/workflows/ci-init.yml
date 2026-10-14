@@ -22,44 +22,6 @@ jobs:
         with:
           fetch-depth: 0 
 
-      - name: Mostrar contexto del workflow
-        run: |
-          echo "Event: $GITHUB_EVENT_NAME"
-          echo "Repository: $GITHUB_REPOSITORY_NAME"
-          echo "Ref: $GITHUB_REF"
-          echo "Base branch: $TARGET_BRANCH"
-
-      # - name: Inspeccionar claims OIDC
-      #   shell: bash
-      #   run: |
-      #     set -euo pipefail
-
-      #     RESPONSE=$(curl -sS \
-      #       -H "Authorization: Bearer $ACTIONS_ID_TOKEN_REQUEST_TOKEN" \
-      #       "${ACTIONS_ID_TOKEN_REQUEST_URL}&audience=sts.amazonaws.com")
-
-      #     export OIDC_TOKEN
-      #     OIDC_TOKEN=$(printf '%s' "$RESPONSE" | jq -er '.value')
-
-      #     node -e '
-      #       const token = process.env.OIDC_TOKEN;
-      #       const claims = JSON.parse(
-      #         Buffer.from(token.split(".")[1], "base64url").toString()
-      #       );
-      #       console.log(JSON.stringify({
-      #         aud: claims.aud,
-      #         sub: claims.sub,
-      #         repository: claims.repository,
-      #         repository_id: claims.repository_id,
-      #         repository_owner_id: claims.repository_owner_id,
-      #         ref: claims.ref,
-      #         event_name: claims.event_name
-      #       }, null, 2));
-      #     '
-
-      #     unset OIDC_TOKEN RESPONSE
-
-
       - name: Configurar credenciales AWS mediante OIDC
         uses: aws-actions/configure-aws-credentials@v4
         with:
@@ -69,15 +31,12 @@ jobs:
       - name: Verificar identidad AWS
         run: aws sts get-caller-identity
 
-      - name: Configurar Terraform
-        uses: hashicorp/setup-terraform@v3
-
       - name: Templeate config
         shell: bash
         run: |
           envsubst < provider.tf.template> provider.tf
 
-      - name: Set up Terraform
+      - name: Configurar Terraform
         uses: hashicorp/setup-terraform@v3
 
       - name: Inicializar backend remoto
