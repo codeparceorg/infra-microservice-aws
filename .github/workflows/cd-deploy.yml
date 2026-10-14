@@ -27,14 +27,6 @@ jobs:
           role-to-assume: ${{ secrets.AWS_ROLE_STATE_ARN }}
           aws-region: ${{ secrets.AWS_REGION }}
 
-      - name: Verificar identidad AWS
-        run: aws sts get-caller-identity
-
-      - name: Templeate config
-        shell: bash
-        run: |
-          envsubst < provider.tf.template> provider.tf
-
       - name: Env
         uses: codeparce/ci-workflows/.github/actions/github/env@v1
         with:
@@ -42,6 +34,11 @@ jobs:
 
       - name: Configurar Terraform
         uses: hashicorp/setup-terraform@v3
+
+      - name: Init && Templeate config
+        run: | 
+         envsubst < provider.tf.template> provider.tf
+         terraform init 
 
       - name: Descargar plan al bucket
         run: aws s3 cp s3://codeparce/devsu/plans/$GITHUB_REPOSITORY_NAME-$TARGET_BRANCH.planfile .planfile

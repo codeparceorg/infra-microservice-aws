@@ -28,19 +28,13 @@ jobs:
           role-to-assume: ${{ secrets.AWS_ROLE_STATE_ARN }}
           aws-region: ${{ secrets.AWS_REGION }}
 
-      - name: Verificar identidad AWS
-        run: aws sts get-caller-identity
-
-      - name: Templeate config
-        shell: bash
-        run: |
-          envsubst < provider.tf.template> provider.tf
-
       - name: Configurar Terraform
         uses: hashicorp/setup-terraform@v3
 
-      - name: Inicializar backend remoto
-        run: terraform init 
+      - name: Init && Templeate config
+        run: | 
+         envsubst < provider.tf.template> provider.tf
+         terraform init 
 
       - name: Realizar el Plan 
         run: terraform plan -out .planfile
