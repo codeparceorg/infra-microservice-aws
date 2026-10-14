@@ -1,9 +1,7 @@
 name: Terraform Deploy
 
 on:
-  push:
-    branches: [ "dev","test" ]
-
+  workflow_dispatch:
 
 permissions:
   contents: read

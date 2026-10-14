@@ -1,9 +1,6 @@
 name: Pipeline env & conection
 
 on:
-  # pull_request:
-  #   branches: [dev,test]
-
   workflow_dispatch:
 
 jobs:
