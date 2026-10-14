@@ -28,6 +28,16 @@ jobs:
           role-to-assume: ${{ secrets.AWS_ROLE_STATE_ARN }}
           aws-region: ${{ secrets.AWS_REGION }}
 
+      - name: Get parameters
+        uses: codeparce/ci-workflows/.github/actions/aws/parameters@v1
+        with:
+          path-parameter: $GITHUB_REPOSITORY_NAME/$TARGET_BRANCH
+
+      - name: Set env
+        uses: codeparce/ci-workflows/.github/actions/github/env@v1
+        with:
+          env-file: .env
+
       - name: Configurar Terraform
         uses: hashicorp/setup-terraform@v3
 
