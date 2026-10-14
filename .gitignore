@@ -10,7 +10,6 @@ example-service
 *.tfstate
 *.tfstate.*
 *.tfstate.backup
-.terraform.lock.hcl
 provider.tf
 
 # Terraform crash logs

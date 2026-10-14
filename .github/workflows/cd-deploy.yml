@@ -35,7 +35,8 @@ jobs:
         run: |
           envsubst < provider.tf.template> provider.tf
 
-      - uses: codeparce/ci-workflows/.github/actions/github/env@v1
+      - name: Env
+        uses: codeparce/ci-workflows/.github/actions/github/env@v1
         with:
           env-file: .env
 
