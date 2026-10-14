@@ -15,7 +15,7 @@ jobs:
     name: Initialize Terraform
     env:
       TARGET_BRANCH: ${{ github.event.pull_request.base.ref}}
-      GITHUB_REPOSITORY: ${{ github.event.pull_request.base.repo.name}}
+      GITHUB_REPOSITORY_NAME: ${{ github.event.pull_request.base.repo.name}}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -25,7 +25,7 @@ jobs:
       - name: Mostrar contexto del workflow
         run: |
           echo "Event: $GITHUB_EVENT_NAME"
-          echo "Repository: $GITHUB_REPOSITORY"
+          echo "Repository: $GITHUB_REPOSITORY_NAME"
           echo "Ref: $GITHUB_REF"
           echo "Base branch: $TARGET_BRANCH"
 
@@ -87,7 +87,7 @@ jobs:
         run: terraform plan -out .planfile
 
       - name: Subir plan al bucket
-        run: aws s3 cp .planfile s3://codeparce/devsu/plans/$GITHUB_REPOSITORY-$TARGET_BRANCH.planfile
+        run: aws s3 cp .planfile s3://codeparce/devsu/plans/$GITHUB_REPOSITORY_NAME-$TARGET_BRANCH.planfile
 
       - name: Post PR comment
         uses: borchero/terraform-plan-comment@v2

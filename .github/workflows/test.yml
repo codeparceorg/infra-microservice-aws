@@ -27,7 +27,7 @@ jobs:
 
       - name: Dump GitHub context
         env:
-          GITHUB_CONTEXT: ${{ toEnv(github) }}
+          GITHUB_CONTEXT: ${{ github }}
         run: echo "$GITHUB_CONTEXT"
 
       - name: Test
