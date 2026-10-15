@@ -37,6 +37,7 @@ jobs:
         uses: codeparce/ci-workflows/.github/actions/github/env@v1
         with:
           env-file: .env
+          env-template: .env.template
 
       - name: Configurar Terraform
         uses: hashicorp/setup-terraform@v3
