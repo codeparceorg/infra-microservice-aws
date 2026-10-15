@@ -51,10 +51,9 @@ jobs:
         run: |
           terraform plan -out .planfile > terraform.log 2> error.log
           echo "✅ Deploy completado" >> error.log
-          
+
       - name: Check Execution
         if: always()
-        working-directory: IaC
         run: cat error.log
 
       - name: Post PR comment
