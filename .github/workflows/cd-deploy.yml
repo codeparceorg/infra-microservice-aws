@@ -2,6 +2,10 @@ name: Terraform Deploy
 
 on:
   workflow_dispatch:
+    branches:
+      - dev
+      - test
+      - main
 
 permissions:
   contents: read
@@ -34,6 +38,7 @@ jobs:
         uses: codeparce/ci-workflows/.github/actions/github/env@v1
         with:
           env-file: .env
+          env-template: .env.template
 
       - name: Configurar Terraform
         uses: hashicorp/setup-terraform@v3
@@ -41,7 +46,14 @@ jobs:
       - name: Init && Templeate config
         run: | 
          envsubst < provider.tf.template> provider.tf
-         terraform init 
+         terraform init > terraform.log 2> error.log
 
       - name: Deploy en aws
-        run: terraform apply -auto-approve 
+        run: |
+          terraform apply -input=false > terraform.log 2> error.log
+          echo "✅ Deploy completado" >> error.log
+
+      - name: Check Execution
+        if: always()
+        working-directory: IaC
+        run: cat error.log

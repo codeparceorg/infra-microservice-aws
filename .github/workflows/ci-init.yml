@@ -2,7 +2,7 @@ name: Terraform Init
 
 on:
   pull_request:
-    branches: [dev,test]
+    branches: [dev,test,main]
 
 
 permissions:
@@ -37,6 +37,7 @@ jobs:
         uses: codeparce/ci-workflows/.github/actions/github/env@v1
         with:
           env-file: .env
+          env-template: .env.template
 
       - name: Configurar Terraform
         uses: hashicorp/setup-terraform@v3
@@ -44,13 +45,22 @@ jobs:
       - name: Init && Templeate config
         run: | 
          envsubst < provider.tf.template> provider.tf
-         terraform init 
+         terraform init > terraform.log 2> error.log
 
       - name: Realizar el Plan 
-        run: terraform plan -out .planfile
+        run: |
+          terraform plan -out .planfile > terraform.log 2> error.log
+          echo "✅ Deploy completado" >> error.log
+
+      - name: Check Execution
+        if: always()
+        run: cat error.log
 
       - name: Post PR comment
         uses: borchero/terraform-plan-comment@v2
         with:
           token: ${{ github.token }}
           planfile: .planfile
+
+
+
