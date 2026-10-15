@@ -2,7 +2,7 @@ name: Terraform Init
 
 on:
   pull_request:
-    branches: [dev,test]
+    branches: [dev,test,main]
 
 
 permissions:
@@ -44,13 +44,21 @@ jobs:
       - name: Init && Templeate config
         run: | 
          envsubst < provider.tf.template> provider.tf
-         terraform init 
+         terraform init > terraform.log 2> error.log
 
       - name: Realizar el Plan 
         run: terraform plan -out .planfile > terraform.log 2> error.log
+
+      - name: Check Execution
+        if: always()
+        working-directory: IaC
+        run: cat error.log
 
       - name: Post PR comment
         uses: borchero/terraform-plan-comment@v2
         with:
           token: ${{ github.token }}
           planfile: .planfile
+
+
+
