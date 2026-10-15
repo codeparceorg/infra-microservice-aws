@@ -48,8 +48,10 @@ jobs:
          terraform init > terraform.log 2> error.log
 
       - name: Realizar el Plan 
-        run: terraform plan -out .planfile > terraform.log 2> error.log
-
+        run: |
+          terraform plan -out .planfile > terraform.log 2> error.log
+          echo "✅ Deploy completado" >> error.log
+          
       - name: Check Execution
         if: always()
         working-directory: IaC
