@@ -2,15 +2,15 @@
 .terraform/
 **/.terraform/*
 
-backend.hcl
-example-service
 *.json
 
 # Terraform state and backups
 *.tfstate
 *.tfstate.*
 *.tfstate.backup
+
 provider.tf
+!example/provider.tf
 
 # Terraform crash logs
 crash.log

@@ -12,17 +12,6 @@ resource "aws_security_group" "sg_ecs" {
 }
 
 
-resource "aws_vpc_security_group_ingress_rule" "ir_ecs_http_alb" {
-  security_group_id = aws_security_group.sg_ecs.id
-
-  depends_on = [ aws_security_group.sg_alb ]
-
-  referenced_security_group_id = aws_security_group.sg_alb.id
-  from_port   = 80
-  ip_protocol = "tcp"
-  to_port     = 80
-}
-
 resource "aws_vpc_security_group_ingress_rule" "ir_ecs_ms_alb" {
   security_group_id = aws_security_group.sg_ecs.id
 
@@ -37,6 +26,8 @@ resource "aws_vpc_security_group_ingress_rule" "ir_ecs_ms_alb" {
 
 resource "aws_vpc_security_group_egress_rule" "er_ecs_all" {
   security_group_id = aws_security_group.sg_ecs.id
+  from_port   = 443
+  ip_protocol = "tcp"
+  to_port     = 443
   cidr_ipv4 = "0.0.0.0/0"
-  ip_protocol = "all"
-}
+} 
